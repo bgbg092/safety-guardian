@@ -1,0 +1,105 @@
+# 행동 패턴 분석 시스템 - 추천 데이터셋 목록
+
+## 객체 검출 데이터셋
+
+### COCO (Common Objects in Context)
+- 설명: 다양한 일상 물체와 사람을 포함하는 대규모 객체 검출 및 세그멘테이션 데이터셋
+- 용도: 사람 객체 검출 모델 학습
+- 다운로드: https://cocodataset.org/#download
+- 크기: 약 19GB (2017 버전)
+- 라이센스: Creative Commons Attribution 4.0 License
+
+### MOT (Multiple Object Tracking)
+- 설명: 다중 객체 추적을 위한 데이터셋으로, 보행자 추적에 특화됨
+- 용도: 다중 사람 추적 모델 학습
+- 다운로드: https://motchallenge.net/data/MOT17/
+- 크기: 약 5GB
+- 라이센스: Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+
+## 자세 추정 데이터셋
+
+### COCO Keypoints
+- 설명: 사람의 신체 키포인트(관절) 검출을 위한 데이터셋
+- 용도: 자세 추정 모델 학습
+- 다운로드: http://cocodataset.org/#keypoints-2017
+- 크기: 약 20GB (이미지 포함)
+- 라이센스: Creative Commons Attribution 4.0 License
+
+### MPII Human Pose
+- 설명: 일상 활동에서의 인간 자세를 포함하는 고품질 데이터셋
+- 용도: 자세 추정 모델 학습 및 평가
+- 다운로드: http://human-pose.mpi-inf.mpg.de/
+- 크기: 약 12GB
+- 라이센스: 학술 및 연구 목적으로만 사용 가능
+
+### Human3.6M
+- 설명: 실내 환경에서 촬영된 3D 인간 자세 데이터셋
+- 용도: 3D 자세 추정 모델 학습
+- 다운로드: http://vision.imar.ro/human3.6m/
+- 크기: 약 40GB
+- 라이센스: 비상업적 연구 목적으로만 사용 가능
+
+## 행동 인식 데이터셋
+
+### UCF101
+- 설명: 101개 행동 카테고리의 비디오 클립 모음
+- 용도: 행동 인식 모델 학습
+- 다운로드: https://www.crcv.ucf.edu/data/UCF101.php
+- 크기: 약 7GB
+- 라이센스: 학술 및 연구 목적으로만 사용 가능
+
+### HMDB51
+- 설명: 51개 행동 카테고리의 비디오 클립 모음
+- 용도: 행동 인식 모델 학습 및 평가
+- 다운로드: https://serre-lab.clps.brown.edu/resource/hmdb-a-large-human-motion-database/
+- 크기: 약 2GB
+- 라이센스: Creative Commons Attribution-NonCommercial-ShareAlike 3.0
+
+### NTU RGB+D
+- 설명: RGB 비디오와 깊이 맵을 포함하는 대규모 행동 인식 데이터셋
+- 용도: 행동 인식 모델 학습, 특히 자세 기반 행동 인식
+- 다운로드: https://rose1.ntu.edu.sg/dataset/actionRecognition/
+- 크기: 약 500GB
+- 라이센스: 학술 및 연구 목적으로만 사용 가능
+
+### Kinetics
+- 설명: YouTube에서 수집된 대규모 인간 행동 비디오 데이터셋
+- 용도: 행동 인식 모델 학습
+- 다운로드: https://deepmind.com/research/open-source/kinetics
+- 크기: 약 450GB (Kinetics-400), 800GB (Kinetics-700)
+- 라이센스: Creative Commons Attribution 4.0 License
+
+## 특수 목적 데이터셋
+
+### Fall Detection Dataset
+- 설명: 넘어짐 감지에 특화된 데이터셋
+- 용도: 넘어짐 감지 모델 학습
+- 다운로드: http://falldataset.com
+- 크기: 약 30GB
+- 라이센스: 연구 목적으로만 사용 가능
+
+### CAER (Context-Aware Emotion Recognition)
+- 설명: 다양한 상황에서의 감정 표현을 포함하는 데이터셋
+- 용도: 감정 인식 모델 학습
+- 다운로드: https://caer-dataset.github.io/
+- 크기: 약 10GB
+- 라이센스: 연구 목적으로만 사용 가능
+
+### UR Fall Detection
+- 설명: 실내 환경에서의 낙상 감지를 위한 데이터셋
+- 용도: 넘어짐 감지 알고리즘 개발
+- 다운로드: http://fenix.univ.rzeszow.pl/~mkepski/ds/uf.html
+- 크기: 약 5GB
+- 라이센스: 연구 목적으로만 사용 가능
+
+## 데이터셋 사용 시 유의사항
+
+1. 대부분의 데이터셋은 **학술 및 연구 목적으로만** 사용 허가가 되어 있으므로, 상업적 용도로 사용 시 별도의 라이센스 협의가 필요할 수 있습니다.
+
+2. 데이터셋 크기가 매우 클 수 있으므로, 다운로드 전 충분한 저장 공간을 확보하고, 가능하면 **점진적으로 다운로드**하는 방식을 고려하세요.
+
+3. 이 시스템의 경우 **S3 스토리지**를 활용하여 필요한 부분만 로컬로 가져오는 방식을 권장합니다.
+
+4. 모든 데이터셋은 각 공식 웹사이트의 **최신 사용 조건을 확인**하고 준수해야 합니다.
+
+5. 일부 데이터셋은 사용 전 등록이나 승인 절차가 필요할 수 있습니다. 
