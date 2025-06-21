@@ -4,21 +4,17 @@
 이 파일은 모든 모듈에서 사용되는 파라미터를 중앙 집중식으로 관리합니다.
 각 모듈별 설정을 쉽게 변경할 수 있도록 구성되어 있습니다.
 """
-
 import os
 
 # 하드웨어 가속 마스터 설정 (True: GPU 사용, False: CPU 사용)
 USE_GPU = True
 
-# 마스터 설정
-# ... existing code ...
-
-# S3 설정
-S3_CONFIG = {
-    'bucket_name': 'safety-guardian-models',
-    'aws_access_key_id': os.environ.get('AWS_ACCESS_KEY_ID'),
-    'aws_secret_access_key': os.environ.get('AWS_SECRET_ACCESS_KEY'),
-    'aws_region': 'ap-northeast-2'
+# AWS S3 설정
+AWS_CONFIG = {
+    'aws_access_key_id': os.environ.get("AWS_ACCESS_KEY_ID"),
+    'aws_secret_access_key': os.environ.get("AWS_SECRET_ACCESS_KEY"),
+    'region_name': "ap-northeast-2",  # 서울 리전
+    'bucket_name': "dklab.vision"
 }
 
 # 비디오 입력 설정
@@ -47,9 +43,9 @@ VIDEO_CONFIG = {
 # YOLO 객체 검출 설정
 DETECTION_CONFIG = {
     'model_type': 'yolov11',  # 'yolov11', 'yolov8' (v 포함 유지)
-    'model_size': 's',  # 'n', 's', 'm', 'l', 'x' - 작은 모델로 유지 -> 'm'에서 's'로 변경
-    'model_path': 'vision/models/yolo11s.pt',  # 실제 사용되는 모델로 경로 수정 -> yolo11m.pt에서 yolo11s.pt로 변경
-    'confidence_threshold': 0.6,  # 신뢰도 임계값 낮춤 (0.4에서 0.25로)
+    'model_size': 'm',  # 'n', 's', 'm', 'l', 'x' - 작은 모델로 유지 -> 'm'에서 's'로 변경
+    'model_path': 'vision/models/yolo11m.pt',  # 오타(vison) 수정
+    'confidence_threshold': 0.35,  # 다중 객체 탐지를 위해 임계값 완화 (0.6 → 0.35)
     'nms_threshold': 0.45,
     'device': 'cuda:0' if USE_GPU else 'cpu',  # 마스터 설정에 따라 자동 결정
     'classes': [0],  # 사람만 감지
@@ -85,20 +81,20 @@ DETECTION_CONFIG = {
 # 자세 추정 설정
 POSE_CONFIG = {
     'model_type': 'yolov11',  # 'yolo11'에서 'yolov11'로 복원 (v 포함)
-    'model_size': 's',  # 'n'에서 's'로 변경 (yolo11s-pose.pt 사용 시) -> 'm'에서 's'로 변경
-    'model_path': 'vision/models/yolo11s-pose.pt',  # 실제 모델 경로로 수정 -> yolo11m-pose.pt에서 yolo11s-pose.pt로 변경
+    'model_size': 'm',  # 'n'에서 's'로 변경 (yolo11s-pose.pt 사용 시) -> 'm'에서 's'로 변경
+    'model_path': 'vision/models/yolo11m-pose.pt',  # 실제 모델 경로로 수정 -> yolo11m-pose.pt에서 yolo11s-pose.pt로 변경
     'device': 'cuda:0' if USE_GPU else 'cpu',
     'min_confidence': 0.3, # 필요에 따라 조절
     'tracking': True,
     # 하드웨어 가속 옵션 추가
-    'use_tensorrt': USE_GPU,  # USE_GPU 마스터 설정 따름
+    'use_tensorrt': USE_GPU,  # USE_GPU 마스터 설정 따름s
     'use_half_precision': USE_GPU,  # USE_GPU 마스터 설정 따름
     'imgsz': 416,             # 모델 변환 시 사용할 입력 이미지 크기 -> 640에서 416으로 변경
 }
 
 # 행동 인식 설정
 ACTION_CONFIG = {
-    'model_type': 'rule',  # 'rule', 'hybrid', 'lstm', 'pretrained', 'simple'
+    'model_type': 'simple',  # 'rule', 'hybrid', 'lstm', 'pretrained', 'simple'
     'model_path': 'models/coco_lstm_custom_best.onnx',  # COCO 키포인트 기반 LSTM 모델
     'sequence_length': 30,  # COCO 키포인트 시퀀스 길이
     'classes': ['normal', 'sitting', 'standing', 'walking', 'other'],  # 기본 클래스
@@ -109,9 +105,9 @@ ACTION_CONFIG = {
     'use_gpu': USE_GPU,  # 마스터 설정에 따라 자동 결정
     'rule_config': {
         'falling_threshold': 0.6,  # 넘어짐 감지를 위한 높이 비율 임계값(더 엄격하게)
-        'stillness_frames': 10,    # 정지 상태 감지를 위한 프레임 수(더 오래 정지해야 sitting으로 판단)
-        'standing_min_height_ratio': 1.5,  # standing 감지를 위한 최소 높이 비율 (신장/너비)
-        'min_keypoint_confidence': 0.3,  # 키포인트 신뢰도 최소값 (낮춰서 정적 객체도 탐지)
+        'stillness_frames': 5,    # 정지 상태 감지를 위한 프레임 수(더 오래 정지해야 sitting으로 판단)
+        'standing_min_height_ratio': 1.0,  # standing 감지를 위한 최소 높이 비율 (신장/너비)
+        'min_keypoint_confidence': 0.1,  # 키포인트 신뢰도 최소값 (낮춰서 정적 객체도 탐지)
         'detection_consistency_frames': 5  # 정적 객체 감지를 위한 최소 연속 프레임 수
     },
     # 사전 학습된 모델 관련 설정
@@ -215,7 +211,7 @@ SYSTEM_CONFIG = {
     'analysis_thread_count': 6,
     'gpu_memory_fraction': 0.8 if USE_GPU else 0.0,  # 마스터 설정에 따라 자동 결정
     'enable_performance_logging': True,
-    'frame_resize_factor': 0.4, # 0.5에서 0.4로 변경
+    'frame_resize_factor': 1.0, # 다중 객체 탐지를 위해 원본 해상도 유지 (0.4 → 1.0)
     'skip_frames': 1,
     'target_fps': 30,
     # 하드웨어 가속 설정
